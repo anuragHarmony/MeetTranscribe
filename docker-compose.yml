@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  meettranscribe:
+    build: .
+    container_name: meettranscribe
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./config:/app/config
+    environment:
+      - MEETTRANSCRIBE_TRANSCRIPTION_DEVICE=cpu
+      - MEETTRANSCRIBE_DIARIZATION_DEVICE=cpu
+      - MEETTRANSCRIBE_VOICE_RECOGNITION_DEVICE=cpu
+    # For GPU support, add:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    command: ["--help"]

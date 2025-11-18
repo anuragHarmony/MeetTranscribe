@@ -1,0 +1,111 @@
+# MeetTranscribe Configuration
+
+# Audio Capture Settings
+audio:
+  sample_rate: 16000  # 16kHz is optimal for speech
+  channels: 1  # Mono
+  chunk_duration: 0.5  # seconds
+
+  # Device IDs (null for default)
+  microphone_device: null
+  system_audio_device: null
+
+  # Mix ratio for dual capture (mic, system)
+  mix_ratio: [1.0, 1.0]
+
+# Speech-to-Text Settings
+transcription:
+  # Engine: whisper or whisperx
+  engine: whisperx
+
+  # Model size: tiny, base, small, medium, large-v2, large-v3
+  model_size: base
+
+  # Device: auto, cpu, cuda
+  device: auto
+
+  # Compute type: auto, int8, float16, float32
+  compute_type: auto
+
+  # Language (null for auto-detect)
+  language: null
+
+  # Batch size (for WhisperX)
+  batch_size: 16
+
+# Speaker Diarization Settings
+diarization:
+  enabled: true
+
+  # Model: pyannote/speaker-diarization-3.1 (free)
+  #        pyannote/speaker-diarization-community-1 (requires HF token)
+  model: pyannote/speaker-diarization-3.1
+
+  # HuggingFace auth token (required for community-1 and precision-2)
+  huggingface_token: null
+
+  # Device: auto, cpu, cuda
+  device: auto
+
+  # Speaker count constraints
+  min_speakers: null
+  max_speakers: null
+
+# Voice Recognition Settings
+voice_recognition:
+  enabled: true
+
+  # Engine: wespeaker or speechbrain
+  engine: speechbrain
+
+  # Model for SpeechBrain
+  speechbrain_model: speechbrain/spkrec-ecapa-voxceleb
+
+  # Model for WeSpeaker
+  wespeaker_model: wespeaker-voxceleb-resnet34-LM
+
+  # Device: auto, cpu, cuda
+  device: auto
+
+  # Recognition threshold (0.0 - 1.0)
+  threshold: 0.7
+
+# Database Settings
+database:
+  # Database type: sqlite
+  type: sqlite
+
+  # SQLite database path
+  sqlite_path: data/meettranscribe.db
+
+# Real-time Processing Settings
+realtime:
+  # Chunk duration for processing (seconds)
+  chunk_duration: 10.0
+
+  # Overlap between chunks (seconds)
+  overlap: 2.0
+
+# Meeting Bot Settings
+meeting_bot:
+  # Run browser in headless mode
+  headless: false
+
+  # Default display name
+  display_name: MeetTranscribe Bot
+
+# Export Settings
+export:
+  # Default export directory
+  output_dir: data/exports
+
+  # Default formats: txt, srt, vtt, json
+  default_formats:
+    - txt
+    - json
+
+# Logging Settings
+logging:
+  level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: logs/meettranscribe.log
