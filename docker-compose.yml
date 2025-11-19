@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  meettranscribe:
+    build: .
+    container_name: meettranscribe
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./config:/app/config
+    environment:
+      - WHISPER_DEVICE=cpu
+      - DIARIZATION_DEVICE=cpu
+      - SPEAKER_RECOGNITION_DEVICE=cpu
+    env_file:
+      - .env
+    command: python cli.py serve
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: meettranscribe-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+volumes:
+  redis-data:

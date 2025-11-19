@@ -1,0 +1,53 @@
+audio:
+  sample_rate: 16000
+  channels: 1
+  chunk_duration_ms: 30
+  format: "int16"
+  device_index: null
+
+whisper:
+  model_size: "medium"
+  device: "cuda"
+  language: null
+  task: "transcribe"
+  compute_type: "float16"
+  beam_size: 5
+  best_of: 5
+  temperature: 0.0
+
+diarization:
+  model_name: "pyannote/speaker-diarization-3.1"
+  device: "cuda"
+  min_speakers: null
+  max_speakers: null
+  segmentation_batch_size: 32
+
+speaker_recognition:
+  embedding_model: "speechbrain/spkrec-ecapa-voxceleb"
+  similarity_threshold: 0.85
+  device: "cuda"
+  min_samples_for_profile: 3
+  embedding_update_weight: 0.3
+
+storage:
+  base_path: "data"
+  voice_profiles_path: "data/voice_profiles"
+  meetings_path: "data/meetings"
+  models_path: "models"
+  database_url: "sqlite:///data/meettranscribe.db"
+  redis_url: null
+
+platform:
+  google_meet: {}
+  zoom: {}
+  teams: {}
+  slack: {}
+  headless: true
+  timeout: 30
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+  enable_cors: true
+  allowed_origins: ["*"]
