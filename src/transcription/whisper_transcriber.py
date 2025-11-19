@@ -41,11 +41,16 @@ class WhisperTranscriber(TranscriptionInterface):
         Initialize Whisper transcriber
 
         Args:
-            model_size: Model size (tiny, base, small, medium, large-v2, large-v3)
+            model_size: Model size (tiny, base, small, medium, large-v2, large-v3, large-v3-turbo, distil-large-v3)
             device: Device to use (cpu, cuda, auto)
             compute_type: Computation type (int8, int16, float16, float32, auto)
             download_root: Directory to store models
             num_workers: Number of workers for parallel processing
+
+        Note:
+            - large-v3-turbo: 6x faster than large-v3, ~12% WER (recommended)
+            - distil-large-v3: 5x faster than large-v3, ~11% WER
+            - large-v3: Best accuracy, ~10% WER, slowest
         """
         if WhisperModel is None:
             raise ImportError(

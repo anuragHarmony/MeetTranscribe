@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: meettranscribe-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./config:/app/config
+    environment:
+      - MEETTRANSCRIBE_TRANSCRIPTION_DEVICE=cpu
+      - MEETTRANSCRIBE_DIARIZATION_DEVICE=cpu
+      - MEETTRANSCRIBE_VOICE_RECOGNITION_DEVICE=cpu
+      # For GPU support, add:
+      # - MEETTRANSCRIBE_TRANSCRIPTION_DEVICE=cuda
+      # - MEETTRANSCRIBE_DIARIZATION_DEVICE=cuda
+      # - MEETTRANSCRIBE_VOICE_RECOGNITION_DEVICE=cuda
+    # For GPU support, uncomment:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
